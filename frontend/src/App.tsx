@@ -25,6 +25,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // Initial fetch on mount: state is set after the awaited request, not synchronously.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
   }, [load]);
 

@@ -6,11 +6,7 @@ import { cn } from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
 
-function DialogContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+function DialogContent({ className, children, ...props }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/40" />
@@ -39,10 +35,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
   return <DialogPrimitive.Title className={cn("text-lg leading-none font-semibold", className)} {...props} />;
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return <DialogPrimitive.Description className={cn("text-sm text-muted-foreground", className)} {...props} />;
 }
 
