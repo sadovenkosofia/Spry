@@ -1,5 +1,4 @@
 from typing import Annotated
-import os
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import select
