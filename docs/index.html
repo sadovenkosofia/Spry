@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html lang="uk">
-<head><meta charset="UTF-8"><title>Spry App</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Spry App</title>
+</head>
 <body>
   <h1>Spry App</h1>
-  <p>Spry - вебзастосунок. Для входу використовується акаунт Google.</p>
+  <p>Spry - вебзастосунок. Для входу використовується акаунт Google або Cognito.</p>
+
+  <!-- Кнопка Входу/Реєстрації -->
+  <p>
+    <a href="https://spry-shymchuk-auth.auth.us-east-1.amazoncognito.com/login?client_id=ВАШ_CLIENT_ID&response_type=code&scope=email+openid+profile&redirect_uri=https://d3b5dueyhkda58.cloudfront.net/">
+      <button style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+        Увійти / Зареєструватися
+      </button>
+    </a>
+  </p>
+
   <p><a href="privacy.html">Політика конфіденційності</a> | <a href="terms.html">Умови використання</a></p>
 </body>
 </html>
