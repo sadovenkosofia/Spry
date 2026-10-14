@@ -1,56 +1,63 @@
-import { useCallback, useEffect, useState } from "react";
-import { Plus } from "lucide-react";
-
-import { listMeetings } from "@/api/meetings";
-import { MeetingList } from "@/components/MeetingList";
-import { NewMeetingDialog } from "@/components/NewMeetingDialog";
-import { Button } from "@/components/ui/button";
-import type { Meeting } from "@/types/meeting";
+import { useEffect, useState } from 'react';
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 
 export default function App() {
-  const [meetings, setMeetings] = useState<Meeting[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [meetings, setMeetings] = useState<any[]>([]);
 
-  const load = useCallback(async () => {
+  useEffect(() => {
+    checkUserAndLoadData();
+  }, []);
+
+  async function checkUserAndLoadData() {
     try {
-      setMeetings(await listMeetings());
-      setError(null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not load meetings");
+      // 1. Перевіряємо, чи залогінений користувач
+      await getCurrentUser();
+      setIsAuthenticated(true);
+
+      // 2. Отримуємо токен авторизації
+      const session = await fetchAuthSession();
+      const token = session.tokens?.idToken?.toString();
+
+      // 3. Запитуємо розклад, передаючи токен у заголовку
+      const response = await fetch('ВАШ_BACKEND_API_URL/meetings', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      setMeetings(data);
+
+    } catch (err) {
+      // Якщо користувач НЕ залогінений — відправляємо на Cognito Login
+      setIsAuthenticated(false);
+      window.location.href = 
+        'https://spry-shymchuk-auth.auth.us-east-1.amazoncognito.com/login?client_id=1tkojgihgq5cgt7987jg0faqpo&response_type=code&scope=email+openid+profile&redirect_uri=https://d3b5dueyhkda58.cloudfront.net/';
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
-  useEffect(() => {
-    // Initial fetch on mount: state is set after the awaited request, not synchronously.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load();
-  }, [load]);
+  if (loading) {
+    return <div className="p-8 text-center">Завантаження розкладу...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <div className="p-8 text-center">Перенаправлення на вхід...</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <main className="mx-auto max-w-2xl px-6 py-14">
-        <header className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-semibold tracking-tight">Meetings</h1>
-            {!loading && !error && (
-              <p className="mt-1 text-sm text-muted-foreground">
-                {meetings.length === 1 ? "1 meeting" : `${meetings.length} meetings`}
-              </p>
-            )}
-          </div>
-          <Button onClick={() => setDialogOpen(true)}>
-            <Plus className="size-4" />
-            New meeting
-          </Button>
-        </header>
-
-        <MeetingList meetings={meetings} loading={loading} error={error} onNew={() => setDialogOpen(true)} />
-      </main>
-      <NewMeetingDialog open={dialogOpen} onOpenChange={setDialogOpen} onCreated={load} />
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Мій розклад</h1>
+      {/* Рендеринг списку мітингів */}
+      <ul>
+        {meetings.map((meeting) => (
+          <li key={meeting.id} className="p-2 border-b">
+            {meeting.title} - {meeting.date}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
