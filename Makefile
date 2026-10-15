@@ -20,3 +20,12 @@ deploy-backend:
 	docker build -t $(ECR_REGISTRY)/spry-backend:latest ./backend
 	docker push $(ECR_REGISTRY)/spry-backend:latest
 	aws ecs update-service --cluster spry-cluster --service spry-backend-service --force-new-deployment
+
+report-now:
+	@WEEK=$${WEEK:-$$(date +%Y-W%V)} ; \
+	ACCOUNT_ID=$$(aws sts get-caller-identity --query Account --output text) ; \
+	QUEUE_URL="https://sqs.us-east-1.amazonaws.com/$${ACCOUNT_ID}/spry-report-requests" ; \
+	echo "Sending report request for week: $${WEEK}" ; \
+	aws sqs send-message \
+		--queue-url "$${QUEUE_URL}" \
+		--message-body "{\"week\": \"$${WEEK}\", \"source\": \"make-command\"}"
