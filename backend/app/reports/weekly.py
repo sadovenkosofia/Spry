@@ -77,14 +77,14 @@ def build_weekly_report(week: str, db: Session) -> bytes:
     output = io.StringIO()
     writer = csv.writer(output)
 
-    writer.writerow(["=== WEEKLY REPORT ===", week])
+    writer.writerow(["WEEKLY REPORT", week])
     writer.writerow([])
     writer.writerow(["Metric", "Current Week", "Previous Week", "Delta"])
     writer.writerow(["Total Meetings", curr_count, prev_count, f"{delta_count:+d}"])
     writer.writerow(["Total Duration (hours)", round(curr_duration_hours, 2), round(prev_duration_hours, 2), f"{delta_duration:+.2f}"])
     writer.writerow([])
 
-    writer.writerow(["=== TOP 5 LONGEST MEETINGS ==="])
+    writer.writerow(["TOP 5 LONGEST MEETINGS"])
     writer.writerow(["Title", "Start Time", "Duration (mins)", "Attendees Count"])
 
     for m in top_5_meetings:
