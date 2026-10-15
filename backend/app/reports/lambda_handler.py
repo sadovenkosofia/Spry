@@ -42,7 +42,7 @@ def handler(event, context):
     if not week:
         week = get_default_week()
 
-    logger.info("report-builder triggered", extra={"trigger": trigger_type, "week": week})
+    logger.info(f"report-builder triggered trigger={trigger_type} week={week}")
 
     db = SessionLocal()
     try:
