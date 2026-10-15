@@ -55,15 +55,7 @@ def build_weekly_report(week: str, db: Session) -> bytes:
         [(m.ends_at - m.starts_at).total_seconds() / 3600 for m in prev_meetings]
     )
 
-    log.info(
-        "report data",
-        extra={
-            "week": week,
-            "range": f"{start_curr} .. {end_curr}",
-            "curr_count": curr_count,
-            "prev_count": prev_count,
-        },
-    )
+    log.info(f"report data: week={week}, range={start_curr} .. {end_curr}, curr_count={curr_count}, prev_count={prev_count}")
 
     delta_count = curr_count - prev_count
     delta_duration = curr_duration_hours - prev_duration_hours
