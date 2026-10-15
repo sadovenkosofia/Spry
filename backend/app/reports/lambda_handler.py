@@ -36,6 +36,8 @@ def handler(event, context):
         record = event["Records"][0]
         body = json.loads(record["body"])
         week = body.get("week")
+        if body.get("source") == "schedule":
+            trigger_type = "schedule"
     else:
         week = event.get("week")
 
