@@ -10,6 +10,7 @@ dependencies = [
     "psycopg[binary]==3.3.6",
     "anthropic[bedrock]==2.3.0",
     "tzdata",
+    "pyjwt[crypto]",
 ]
 
 [tool.setuptools]
