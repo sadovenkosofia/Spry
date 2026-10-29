@@ -68,10 +68,10 @@ Resources:
         - Google
       AllowedOAuthFlowsUserPoolClient: true
       CallbackURLs:
-        - https://d3b5dueyhkda58.cloudfront.net/
+        - https://d1ddc10h0orzy1.cloudfront.net/
         - http://localhost:5173/
       LogoutURLs:
-        - https://d3b5dueyhkda58.cloudfront.net/
+        - https://d1ddc10h0orzy1.cloudfront.net/
         - http://localhost:5173/
 
 Outputs:
