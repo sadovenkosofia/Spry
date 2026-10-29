@@ -11,6 +11,7 @@ import { listMeetings } from "@/api/meetings";
 import { MeetingCard } from "@/components/MeetingCard";
 import { NewMeetingDialog } from "@/components/NewMeetingDialog";
 import { Button } from "@/components/ui/button";
+import { AgendaPaste } from "@/components/AgendaPaste";
 import type { Meeting } from "@/types/meeting";
 
 export default function App() {
@@ -111,6 +112,8 @@ export default function App() {
             </Button>
           </div>
         </header>
+
+        <AgendaPaste meetings={meetings} onChanged={() => void load()} />
 
         <NewMeetingDialog
           open={dialogOpen}
