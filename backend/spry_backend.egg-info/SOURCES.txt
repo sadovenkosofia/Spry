@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+spry_backend.egg-info/PKG-INFO
+spry_backend.egg-info/SOURCES.txt
+spry_backend.egg-info/dependency_links.txt
+spry_backend.egg-info/requires.txt
+spry_backend.egg-info/top_level.txt
