@@ -1,9 +1,0 @@
-{
-  "python-envs.defaultEnvManager": "ms-python.python:system",
-  "python.analysis.extraPaths": [
-    "${workspaceFolder}/backend"
-  ],
-  "python.autoComplete.extraPaths": [
-    "${workspaceFolder}/backend"
-  ]
-}
